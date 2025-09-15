@@ -1,5 +1,5 @@
 from attention_pool import AttentionPool
-from utils import clean_text
+from utils import clean_text, read_file
 import tensorflow as tf
 import streamlit as st
 import plotly.graph_objects as go
@@ -13,6 +13,11 @@ def main():
     st.title("AI text detector")
 
     user_input = st.text_area("Enter your text:", "", height=250)
+    uploaded_file = st.file_uploader("Or upload a file (.pdf/.docx/.txt)", type=["pdf", "docx", "txt"])
+
+    if uploaded_file:
+        user_input = read_file(uploaded_file)
+        
 
     if user_input:
         if len(user_input.split()) < 3:
@@ -42,7 +47,9 @@ def main():
                     gauge={'axis': {'range': [0, 100]}}
                 ))
                 st.plotly_chart(fig)
-            
+                if uploaded_file:
+                    st.markdown(user_input)
+                    
             except Exception as e:
                 st.error(f"An error occurred: {str(e)}")
             
