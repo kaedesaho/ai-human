@@ -2,6 +2,7 @@ import re
 import streamlit as st
 from pypdf import PdfReader
 from docx import Document
+import fitz  
 
 
 def clean_text(text):
@@ -17,12 +18,12 @@ def read_file(file):
         return str(file.read(), "utf-8")
 
     elif file.type == "application/pdf":  # pdf
-        pdf_reader = PdfReader(file)
+        doc = fitz.open(stream=file.read(), filetype="pdf")
         text = ""
-        for page in pdf_reader.pages:
-            text += page.extract_text() or ""
+        for page in doc:
+            text += page.get_text("text")  # "blocks", "dict", etc. also possible
         return text
-
+    
     elif file.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document":  # docx
         doc = Document(file)
         text = "\n".join([p.text for p in doc.paragraphs])
