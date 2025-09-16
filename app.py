@@ -20,8 +20,8 @@ def main():
         
 
     if user_input:
-        if len(user_input.split()) < 3:
-            st.info("Enter at least 3 words.")
+        if len(user_input.split()) < 40:
+            st.info("Enter at least 40 words.")
             return
          
         with st.spinner("Loading..."):
@@ -49,7 +49,7 @@ def main():
                 st.plotly_chart(fig)
                 if uploaded_file:
                     st.markdown(user_input)
-                    
+
             except Exception as e:
                 st.error(f"An error occurred: {str(e)}")
             
