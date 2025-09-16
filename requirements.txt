@@ -3,3 +3,4 @@ tensorflow==2.19
 plotly
 pypdf
 python-docx
+PyMuPDF
