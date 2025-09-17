@@ -12,12 +12,17 @@ model = tf.keras.models.load_model("best.keras", custom_objects=custom_objects)
 def main():
     st.title("AI text detector")
 
-    user_input = st.text_area("Enter your text:", "", height=250)
-    uploaded_file = st.file_uploader("Or upload a file (.pdf/.docx/.txt)", type=["pdf", "docx", "txt"])
+    user_input = st.text_area("Enter your text:", height=250)
+    word_count = len(user_input.split())
+    st.write(f"Word count: {word_count}")
+    st.caption("💡 Please enter at least 40 words.")
+
+    st.caption("⚠️ Remove any uploaded file to use the text box.")
+    
+    uploaded_file = st.file_uploader("Upload a file (.pdf/.docx/.txt)", type=["pdf", "docx", "txt"])
 
     if uploaded_file:
-        user_input = read_file(uploaded_file)
-        
+        user_input = read_file(uploaded_file)        
 
     if user_input:
         if len(user_input.split()) < 40:
